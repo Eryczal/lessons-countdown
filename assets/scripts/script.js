@@ -153,7 +153,7 @@ function displayDate(dL, hL, mL, sL, m) {
 	let text = "";
 	if (dL !== false) {
 		if (dL > 0) {
-			text = dL == 1 ? dL + " days, " : dL + " day, ";
+			text = dL == 1 ? dL + " day, " : dL + " days, ";
 		}
 	}
 	if (dL > 0 || hL > 0) {
@@ -323,7 +323,7 @@ function checkEditMode() {
 			document.getElementById("event_end_minute_" + i).addEventListener("keyup", changeEventEndMinute);
 			document.getElementById("event_remove_" + i).addEventListener("click", removeEventClick);
 		}
-		document.getElementById("main").insertAdjacentHTML("beforeend", `<input type="button" id="add_event" value="Dodaj">`);
+		document.getElementById("main").insertAdjacentHTML("beforeend", `<input type="button" id="add_event" value="Add">`);
 		document.getElementById("add_event").addEventListener("click", addEventClick);
 	} else {
 		for (let i = 0; i < events.length; i++) {
