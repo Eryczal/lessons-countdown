@@ -258,32 +258,9 @@ function checkGroup() {
 
 function checkDarkMode() {
 	if (settings.darkMode) {
-		let darkMode = `
-                body {
-                    background-color: #2c2c2c!important;
-                    color: #fff!important;
-                }
-                header {
-                    background-color: #292929!important;
-                    box-shadow: 0 0 2px 0 #222!important;
-                }
-                aside {
-                    background-color: #292929!important;
-                    box-shadow: 0 0 2px 0 #222!important;
-                }
-                #bar1, #bar2, #bar3 {
-                    background-color: #ddd!important;
-                }
-            `;
-
-		let style = document.createElement("style");
-		style.id = "dark_mode_style";
-		style.innerText = darkMode;
-		document.head.appendChild(style);
+		document.getElementsByTagName("html")[0].classList.add("dark");
 	} else {
-		if (document.getElementById("dark_mode_style")) {
-			document.getElementById("dark_mode_style").parentNode.removeChild(document.getElementById("dark_mode_style"));
-		}
+		document.getElementsByTagName("html")[0].classList.remove("dark");
 	}
 }
 

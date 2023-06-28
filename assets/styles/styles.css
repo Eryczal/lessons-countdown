@@ -1,18 +1,20 @@
 :root {
+	color-scheme: light;
+
 	--font-main: "Rubik", sans-serif;
 
 	--font-size-l: 20px;
 	--font-size-xl: 24px;
 	--font-size-2xl: 30px;
 
-	--color-light-background: #f9f9f9;
-	--color-light-header: #fafafa;
-	--color-light-header-shadow: #eee;
-	--color-light-font: #333;
-	--color-light-bar-cover: #ddd;
-	--color-light-bar-shadow: #ccc;
-	--color-light-event-remove: #e72131;
-	--color-light-event-remove-shadow: #aaa;
+	--color-background: #f9f9f9;
+	--color-header: #fafafa;
+	--color-header-shadow: #eee;
+	--color-font: #333;
+	--color-bar-cover: #ddd;
+	--color-bar-shadow: #ccc;
+	--color-event-remove: #e72131;
+	--color-event-remove-shadow: #aaa;
 
 	--height-header: 60px;
 	--height-bar: 60px;
@@ -32,12 +34,25 @@
 	--size-event-remove: 24px;
 }
 
+.dark {
+	color-scheme: dark;
+
+	--color-background: #242424;
+	--color-header: #222;
+	--color-header-shadow: #222;
+	--color-font: #ccc;
+	--color-bar-cover: #666;
+	--color-bar-shadow: #555;
+	--color-event-remove: #e72131;
+	--color-event-remove-shadow: #aaa;
+}
+
 body {
 	margin: 0;
 	padding: 0;
 	font-family: var(--font-main);
-	background-color: var(--color-light-background);
-	color: var(--color-light-font);
+	background-color: var(--color-background);
+	color: var(--color-font);
 	overflow-y: scroll;
 }
 
@@ -47,8 +62,8 @@ header {
 	line-height: var(--height-header);
 	text-align: center;
 	font-size: var(--font-size-l);
-	background-color: var(--color-light-header);
-	box-shadow: 0 0 2px 0 var(--color-light-header-shadow);
+	background-color: var(--color-header);
+	box-shadow: 0 0 2px 0 var(--color-header-shadow);
 	position: fixed;
 	z-index: 3;
 }
@@ -76,7 +91,7 @@ header h1 {
 	overflow: hidden;
 	margin: auto;
 	border-radius: 20px;
-	box-shadow: 0 0 5px 0 var(--color-light-bar-shadow);
+	box-shadow: 0 0 5px 0 var(--color-bar-shadow);
 }
 
 .bar_text {
@@ -88,7 +103,7 @@ header h1 {
 
 .bar_cover {
 	position: absolute;
-	background-color: var(--color-light-bar-cover);
+	background-color: var(--color-bar-cover);
 	top: 0;
 	right: 0;
 	width: 100%;
@@ -110,20 +125,20 @@ header h1 {
 #bar3 {
 	width: var(--width-more-bar);
 	height: var(--height-more-bar);
-	background-color: var(--color-light-font);
+	background-color: var(--color-font);
 	margin: var(--space-size-2xs) 0;
 }
 
 #aside {
 	position: fixed;
 	top: var(--height-header);
-	left: var(--width-aside);
+	left: calc(var(--width-aside) * -1);
 	width: var(--width-aside);
 	height: 100vh;
-	background-color: var(--color-light-header);
+	background-color: var(--color-header);
 	z-index: 2;
 	transition: left 0.3s ease-out;
-	box-shadow: 0 0 2px 0 var(--color-light-header-shadow);
+	box-shadow: 0 0 2px 0 var(--color-header-shadow);
 	text-align: center;
 }
 
@@ -189,11 +204,11 @@ td {
 	height: var(--size-event-remove);
 	line-height: var(--size-event-remove);
 	text-align: center;
-	background-color: var(--color-light-event-remove);
-	color: var(--color-light-background);
+	background-color: var(--color-event-remove);
+	color: var(--color-background);
 	font-size: var(--font-size-l);
 	user-select: none;
 	cursor: pointer;
 	border-radius: 5px;
-	box-shadow: 1px 1px 3px var(--color-light-event-remove-shadow);
+	box-shadow: 1px 1px 3px var(--color-event-remove-shadow);
 }
