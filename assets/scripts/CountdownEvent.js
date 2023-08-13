@@ -2,26 +2,26 @@ class CountdownEvent {
 	constructor(name, day, sH, sM, eH, eM) {
 		this.name = name;
 		this.day = day;
-		this.sH = sH;
-		this.sM = sM;
-		this.eH = eH;
-		this.eM = eM;
+		this.startingHour = sH;
+		this.startingMinute = sM;
+		this.endingHour = eH;
+		this.endingMinute = eM;
 	}
 
 	started(date) {
 		return (
 			this.day == date.getDay() &&
-			((date.getHours() > this.sH && date.getHours() < this.eH) ||
-				(date.getHours() == this.sH && date.getMinutes() >= this.sM) ||
-				(date.getHours() == this.eH && date.getMinutes() < this.eM))
+			((date.getHours() > this.startingHour && date.getHours() < this.endingHour) ||
+				(date.getHours() == this.startingHour && date.getMinutes() >= this.startingMinute) ||
+				(date.getHours() == this.endingHour && date.getMinutes() < this.endingMinute))
 		);
 	}
 
 	duration() {
 		let d1 = new Date();
 		let d2 = new Date();
-		d1.setHours(this.sH, this.sM);
-		d2.setHours(this.eH, this.eM);
+		d1.setHours(this.startingHour, this.startingMinute);
+		d2.setHours(this.endingHour, this.endingMinute);
 		return d2 - d1;
 	}
 }

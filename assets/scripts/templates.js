@@ -28,11 +28,11 @@ const templates = {
 	editModeDay: `<tr id="edit_event_%id">
         <td><input type="text" id="event_name_%id" value="%eventName" title="Event name"></td>
         <td><input type="text" id="event_day_%id" value="%eventDay" title="A day number between 1 and 7"></td>
-        <td><input type="text" id="event_start_hour_%id" value="%eventStartingHour" title="Between 0 and 23"></td>
-        <td><input type="text" id="event_start_minute_%id" value="%eventStartingMinute" title="Between 0 and 59"></td>
-        <td><input type="text" id="event_end_hour_%id" value="%eventEndingHour" title="Between 0 and 23"></td>
-        <td><input type="text" id="event_end_minute_%id" value="%eventEndingMinute" title="Between 0 and 59"></td>
-        <td><div class="event_remove" id="event_remove_%id">X</div></td>
+        <td><input type="text" id="event_starting_hour_%id" value="%eventStartingHour" title="Between 0 and 23"></td>
+        <td><input type="text" id="event_starting_minute_%id" value="%eventStartingMinute" title="Between 0 and 59"></td>
+        <td><input type="text" id="event_ending_hour_%id" value="%eventEndingHour" title="Between 0 and 23"></td>
+        <td><input type="text" id="event_ending_minute_%id" value="%eventEndingMinute" title="Between 0 and 59"></td>
+        <td><div class="event_remove" id="remove_event_click_%id">X</div></td>
     </tr>`,
 };
 
