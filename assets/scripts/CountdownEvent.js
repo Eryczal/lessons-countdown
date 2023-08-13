@@ -9,8 +9,9 @@ class CountdownEvent {
 	}
 
 	started(date) {
+		let day = date.getDay() === 0 ? 7 : date.getDay();
 		return (
-			this.day == date.getDay() &&
+			this.day == day &&
 			((date.getHours() > this.startingHour && date.getHours() < this.endingHour) ||
 				(date.getHours() == this.startingHour && date.getMinutes() >= this.startingMinute) ||
 				(date.getHours() == this.endingHour && date.getMinutes() < this.endingMinute))

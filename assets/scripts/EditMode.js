@@ -95,7 +95,6 @@ class EditMode {
 		for (let i = 0; i < this.eventsHolder.events.length; i++) {
 			this.removeDayEvents(i);
 			if (parseInt(event.currentTarget.id.replace("remove_event_click_", "")) == i) {
-				console.log("?");
 				this.eventsHolder.events.splice(i, 1);
 			}
 		}
