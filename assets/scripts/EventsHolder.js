@@ -1,6 +1,6 @@
 import CountdownEvent from "./CountdownEvent.js";
 import templates from "./templates.js";
-import { insertHTML } from "./utils.js";
+import { insertHTML, formatUnit } from "./utils.js";
 
 class EventsHolder {
     events = [];
@@ -96,43 +96,30 @@ class EventsHolder {
         document.getElementById("bar_cover_" + i).style.width = 100 - percentage + "%";
     }
 
-    displayDate(dL, hL, mL, sL, m) {
-        let text = "";
-        if (dL !== false && dL > 0) {
-            text = dL == 1 ? dL + " day, " : dL + " days, ";
+    displayDate(dL, hL, mL, sL, m = false) {
+        const parts = [];
+
+        if (dL && dL > 0) {
+            parts.push(`${dL} ${formatUnit(dL, { one: "day", many: "days" })}`);
         }
-        if (dL > 0 || hL > 0) {
-            text += hL >= 10 ? hL : "0" + hL;
-            if (hL == 1) {
-                text += " hour, ";
-            } else if (hL % 10 >= 2 && hL % 10 <= 4 && !(hL >= 12 && hL <= 14)) {
-                text += " hours, ";
-            } else {
-                text += " hours, ";
-            }
+
+        if ((dL && dL > 0) || hL > 0) {
+            parts.push(`${String(hL).padStart(2, "0")} ${formatUnit(hL, { one: "hour", many: "hours" })}`);
         }
-        if (dL > 0 || hL > 0 || mL > 0) {
-            text += mL >= 10 ? mL : "0" + mL;
-            if (mL == 1) {
-                text += " minute, ";
-            } else if (mL % 10 >= 2 && mL % 10 <= 4 && !(mL >= 12 && mL <= 14)) {
-                text += " minutes, ";
-            } else {
-                text += " minutes, ";
-            }
+
+        if ((dL && dL > 0) || hL > 0 || mL > 0) {
+            parts.push(`${String(mL).padStart(2, "0")} ${formatUnit(mL, { one: "minute", many: "minutes" })}`);
         }
-        text += sL >= 10 ? sL : "0" + sL;
-        if (typeof m != "undefined" && m !== false) {
-            text += `:${m.toString().padStart(4, "0")}`;
+
+        let secondsText = String(sL).padStart(2, "0");
+        if (m !== false) {
+            secondsText += `:${String(m).padStart(4, "0")}`;
         }
-        if (sL == 1) {
-            text += " second.";
-        } else if (sL % 10 >= 2 && sL % 10 <= 4 && !(sL >= 12 && sL <= 14)) {
-            text += " seconds.";
-        } else {
-            text += " seconds.";
-        }
-        return text;
+        secondsText += ` ${formatUnit(sL, { one: "second", many: "seconds" })}`;
+
+        parts.push(secondsText);
+
+        return parts.join(", ") + ".";
     }
 }
 
