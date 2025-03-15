@@ -25,16 +25,14 @@ class CountdownEventsHolder {
     }
 
     showEvents() {
-        document.getElementById("main").innerHTML = this.events
-            .map((event) => {
-                return eventTemplate(event.getData());
-            })
-            .join("");
+        this.events.forEach((event) => {
+            eventTemplate("main", event.getData());
+        });
     }
 
     updateEvents() {
         this.events.forEach((event) => {
-            document.getElementById(`event-content-${event.id}`).innerHTML = eventContentTemplate(event.getData());
+            eventContentTemplate(`event-content-${event.id}`, event.getData());
         });
     }
 }

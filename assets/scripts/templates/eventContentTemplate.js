@@ -1,4 +1,4 @@
-const eventContentTemplate = (data) => {
+const eventContentTemplate = (container, data) => {
     const { days, hours, minutes, seconds } = data.diff;
 
     let parts = [];
@@ -19,21 +19,33 @@ const eventContentTemplate = (data) => {
         parts.push(`${String(seconds).padStart(2, "0")} ${seconds === 1 ? "second" : "seconds"}.`);
     }
 
-    return `
+    const startedTemplate = `${data.started ? "Ending" : "Starting"} in:`;
+
+    const template = `
         <div class="event-difference-info"> 
-            <div class="event-difference-header">
-                ${data.started ? "Ending" : "Starting"} in:
+            <div id="event-difference-header-${data.id}" class="event-difference-header">
+                ${startedTemplate}
             </div>
-            <div class="event-difference-time">
+            <div id="event-difference-time-${data.id}" class="event-difference-time">
                 ${parts.join(" ")}
             </div>
         </div>
         <div class="event-countdown-bar">
-            <div class="event-bar-progress" id="event-bar-progress-${data.id}"></div>
-            <div id="event-bar-cover-${data.id}" style="width: ${data.percentage}%"></div>
-            <div id="event-bar-text-${data.id}">${data.percentage.toFixed(4)}%</div>
+            <div id="event-bar-cover-${data.id}" class="event-bar-cover" style="width: ${100 - data.percentage}%"></div>
+            <div id="event-bar-text-${data.id}" class="event-bar-text">${data.percentage.toFixed(4)}%</div>
         </div>
     `;
+
+    const containerElement = document.getElementById(container);
+
+    if (!containerElement.hasChildNodes()) {
+        containerElement.insertAdjacentHTML("beforeend", template);
+    } else {
+        document.getElementById(`event-difference-header-${data.id}`).textContent = startedTemplate;
+        document.getElementById(`event-difference-time-${data.id}`).textContent = parts.join(" ");
+        document.getElementById(`event-bar-cover-${data.id}`).style.width = 100 - data.percentage + "%";
+        document.getElementById(`event-bar-text-${data.id}`).textContent = data.percentage.toFixed(4) + "%";
+    }
 };
 
 export { eventContentTemplate };
