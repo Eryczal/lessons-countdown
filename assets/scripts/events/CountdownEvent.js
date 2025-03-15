@@ -9,14 +9,15 @@ class CountdownEvent {
 
     started() {
         const now = new Date();
+        const eventStart = this.getEventStartDate();
+        const eventEnd = new Date(this.getEventStartDate().getTime() + this.duration * 1000);
 
-        if (this.repeating) {
-            if (now.getDay() !== this.startDate.getDay()) {
-                return false;
-            }
+        return now >= eventStart && now <= eventEnd;
+    }
 
             const eventStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), this.startDate.getHours(), this.startDate.getMinutes());
             const eventEnd = new Date(eventStart.getTime() + this.duration * 1000);
+    getTimeDifference() {
 
             return now >= eventStart && now <= eventEnd;
         } else {
@@ -62,7 +63,6 @@ class CountdownEvent {
         return nextWeekDate;
     }
 
-    getTimeDifference() {
         const started = this.started();
 
         if (started) {
