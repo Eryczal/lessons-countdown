@@ -1,10 +1,25 @@
 class CountdownEvent {
-    constructor(name, startDate, duration, repeating, color) {
+    constructor(id, name, creationDate, startDate, duration, repeating, color) {
+        this.id = id;
         this.name = name;
+        this.creationDate = creationDate;
         this.startDate = startDate;
         this.duration = duration;
         this.repeating = repeating;
         this.color = color;
+    }
+
+    getData() {
+        const data = {
+            id: this.id,
+            name: this.name,
+            started: this.started(),
+            diff: this.getTimeDifference(),
+            color: this.color,
+            percentage: this.getPercentage(),
+        };
+
+        return data;
     }
 
     started() {
@@ -15,19 +30,43 @@ class CountdownEvent {
         return now >= eventStart && now <= eventEnd;
     }
 
-            const eventStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), this.startDate.getHours(), this.startDate.getMinutes());
-            const eventEnd = new Date(eventStart.getTime() + this.duration * 1000);
-    getTimeDifference() {
+    getPercentage() {
+        const now = new Date();
+        let fromDate;
+        let toDate;
 
-            return now >= eventStart && now <= eventEnd;
+        if (this.repeating) {
+            fromDate = this.started() ? this.getEventStartDate() : new Date(this.getEventStartDate().getTime() - 7 * 24 * 60 * 60 * 1000);
+            toDate = this.started() ? new Date(this.getEventStartDate().getTime() + duration * 1000) : this.getEventStartDate();
         } else {
-            if (now.toDateString() !== this.startDate.toDateString()) {
-                return false;
+            fromDate = this.started() ? this.startDate : this.creationDate;
+            toDate = this.started() ? new Date(this.startDate.getTime() + duration * 1000) : this.startDate;
+        }
+
+        const total = toDate - fromDate;
+        const elapsed = now - fromDate;
+        const percentage = Math.max(0, Math.min((elapsed / total) * 100, 100));
+
+        return percentage;
+    }
+
+    getTimeDifference() {
+        const started = this.started();
+
+        if (started) {
+            const now = new Date();
+            const endDate = new Date(this.getEventStartDate().getTime() + this.duration);
+
+            return this.timeBetween(now, endDate);
+        } else {
+            const now = new Date();
+            const startDate = this.getEventStartDate();
+
+            if (startDate < now) {
+                return;
             }
 
-            const eventEnd = new Date(this.startDate.getTime() + this.duration * 1000);
-
-            return now >= this.startDate && now <= eventEnd;
+            return this.timeBetween(now, startDate);
         }
     }
 
@@ -61,25 +100,6 @@ class CountdownEvent {
 
         const nextWeekDate = new Date(candidateDate.getTime() + 7 * 24 * 60 * 60 * 1000);
         return nextWeekDate;
-    }
-
-        const started = this.started();
-
-        if (started) {
-            const now = new Date();
-            const endDate = new Date(this.getEventStartDate().getTime() + this.duration);
-
-            return this.timeBetween(now, endDate);
-        } else {
-            const now = new Date();
-            const startDate = this.getEventStartDate();
-
-            if (startDate < now) {
-                return;
-            }
-
-            return this.timeBetween(now, startDate);
-        }
     }
 
     timeBetween(startDate, endDate) {
