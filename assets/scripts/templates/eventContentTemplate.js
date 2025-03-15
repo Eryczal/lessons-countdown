@@ -1,4 +1,4 @@
-const eventContentTemplate = (container, data) => {
+const eventContentTemplate = (data) => {
     const { days, hours, minutes, seconds } = data.diff;
 
     let parts = [];
@@ -21,7 +21,7 @@ const eventContentTemplate = (container, data) => {
 
     const startedTemplate = `${data.started ? "Ending" : "Starting"} in:`;
 
-    const template = `
+    const infoTemplate = `
         <div class="event-difference-info"> 
             <div id="event-difference-header-${data.id}" class="event-difference-header">
                 ${startedTemplate}
@@ -30,16 +30,21 @@ const eventContentTemplate = (container, data) => {
                 ${parts.join(" ")}
             </div>
         </div>
+    `;
+
+    const barTemplate = `
         <div class="event-countdown-bar">
             <div id="event-bar-cover-${data.id}" class="event-bar-cover" style="width: ${100 - data.percentage}%"></div>
             <div id="event-bar-text-${data.id}" class="event-bar-text">${data.percentage.toFixed(4)}%</div>
         </div>
     `;
 
-    const containerElement = document.getElementById(container);
+    const infoContainer = document.getElementById(`event-top-info-${data.id}`);
+    const barContainer = document.getElementById(`event-bar-container-${data.id}`);
 
-    if (!containerElement.hasChildNodes()) {
-        containerElement.insertAdjacentHTML("beforeend", template);
+    if (!infoContainer.querySelector(".event-difference-info") && !barContainer.hasChildNodes()) {
+        infoContainer.insertAdjacentHTML("beforeend", infoTemplate);
+        barContainer.insertAdjacentHTML("beforeend", barTemplate);
     } else {
         document.getElementById(`event-difference-header-${data.id}`).textContent = startedTemplate;
         document.getElementById(`event-difference-time-${data.id}`).textContent = parts.join(" ");
