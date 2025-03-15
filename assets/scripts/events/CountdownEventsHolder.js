@@ -32,7 +32,7 @@ class CountdownEventsHolder {
 
     updateEvents() {
         this.events.forEach((event) => {
-            eventContentTemplate(`event-content-${event.id}`, event.getData());
+            eventContentTemplate(event.getData());
         });
     }
 }
