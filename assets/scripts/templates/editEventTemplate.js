@@ -12,6 +12,7 @@ const editEventTemplate = (data, eventsHolder) => {
     const dialog = document.getElementById("dialog");
 
     dialog.showModal();
+    dialog.classList.add("open");
 };
 
 export { editEventTemplate };
