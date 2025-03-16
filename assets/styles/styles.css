@@ -161,3 +161,68 @@ h2 {
     border: 4px dotted #e6e6e6;
     font-size: 1rem;
 }
+
+dialog {
+    border: 0;
+    max-height: 90vh;
+    max-width: 90vw;
+    padding: 3rem 12rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: 0.3s ease-in;
+    box-shadow: 1px 1px 3px 0 #606060, 0 0 0 100vw transparent;
+}
+
+dialog.open {
+    opacity: 1;
+    box-shadow: 1px 1px 3px 0 #606060, 0 0 0 100vw rgba(0, 0, 0, 0.6);
+}
+
+dialog h2 {
+    padding: 1rem 0;
+    text-align: center;
+}
+
+dialog > div {
+    padding: 1rem 0;
+}
+
+dialog label {
+    display: block;
+}
+
+.label-same-line {
+    display: inline-block;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+input[type="time"] {
+    width: 100%;
+    border: 1px solid #ececec;
+    padding: 0.6rem;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 0.2rem;
+}
+
+input[type="text"] {
+    text-align: left;
+}
+
+input:focus {
+    outline: 0;
+    border: 1px solid #aa9aec;
+}
+
+.select-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0.4rem;
+}
+
+.select-container select {
+    flex: 1;
+}
