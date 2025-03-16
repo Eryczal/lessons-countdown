@@ -1,4 +1,5 @@
 import { editEventTemplate } from "./templates/editEventTemplate.js";
+import { floatingMenuTemplate } from "./templates/floatingMenuTemplate.js";
 
 class Settings {
     static data = {
@@ -15,7 +16,7 @@ class Settings {
         document.getElementById("edit-mode").addEventListener("click", (e) => this.changeEditMode(e));
 
         this.eventsHolder.events.forEach((event) => {
-            document.getElementById(`event-settings-button-${event.id}`).addEventListener("click", (e) => this.clickEventSettings(e));
+            document.getElementById(`event-settings-button-${event.id}`).addEventListener("click", (e) => this.clickEventSettings(e, event));
         });
 
         document.getElementById("dummy-event").addEventListener("click", (e) => this.clickAddEvent(e));
@@ -28,7 +29,26 @@ class Settings {
         editEventTemplate(null, this.eventsHolder);
     }
 
-    static clickEventSettings(e) {}
+    static clickEditEvent(e, event) {}
+
+    static clickRemoveEvent(e, event) {}
+
+    static clickEventSettings(e, event) {
+        const nextElement = e.currentTarget.nextElementSibling;
+        const editHandler = (e) => this.clickEditEvent(e, event);
+        const removeHandler = (e) => this.clickRemoveEvent(e, event);
+
+        if (nextElement) {
+            document.getElementById(`floating-edit-${event.id}`).removeEventListener("click", editHandler);
+            document.getElementById(`floating-remove-${event.id}`).removeEventListener("click", removeHandler);
+            nextElement.remove();
+            return;
+        }
+
+        floatingMenuTemplate(e.currentTarget, event);
+        document.getElementById(`floating-edit-${event.id}`).addEventListener("click", editHandler);
+        document.getElementById(`floating-remove-${event.id}`).addEventListener("click", removeHandler);
+    }
 
     static clickDialog(e) {
         const dialog = document.getElementById("dialog");

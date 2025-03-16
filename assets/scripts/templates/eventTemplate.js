@@ -9,10 +9,12 @@ const eventTemplate = (container, data) => {
                 </div>
                 <div class="event-bar-container" id="event-bar-container-${data.id}"></div>
             </div>
-            <div class="settings-button ${container === "dummy-event" ? "active" : ""}" id="event-settings-button-${data.id}">
-                <div class="setting-dot"></div>
-                <div class="setting-dot"></div>
-                <div class="setting-dot"></div>
+            <div class="settings-button-container">
+                <div class="settings-button ${container === "dummy-event" ? "active" : ""}" id="event-settings-button-${data.id}">
+                    <div class="setting-dot"></div>
+                    <div class="setting-dot"></div>
+                    <div class="setting-dot"></div>
+                </div>
             </div>
         </div>
     `;
