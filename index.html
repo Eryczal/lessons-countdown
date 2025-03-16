@@ -22,6 +22,33 @@
         </header>
         <main id="main"></main>
         <aside><input type="checkbox" id="edit-mode" autocomplete="off" /> Edit mode</aside>
+        <dialog id="dialog">
+            <h1 id="dialog-header">Add countdown</h1>
+            <div>
+                <label for="dialog-name">Name</label>
+                <input type="text" id="dialog-name" />
+            </div>
+            <div>
+                <label for="dialog-start-date">Start date</label>
+                <input type="datetime-local" id="dialog-start-date" />
+            </div>
+            <div>
+                <label for="dialog-duration">Duration</label>
+                <input type="time" id="dialog-duration" />
+            </div>
+            <div>
+                <input type="checkbox" id="dialog-repeating" />
+                <label for="dialog-repeating">Repeating</label>
+            </div>
+            <div>
+                <label for="dialog-color">Color</label>
+                <select></select>
+            </div>
+            <div>
+                <button id="dialog-close-button">Close</button>
+                <button id="dialog-add-button">Add</button>
+            </div>
+        </dialog>
         <script type="module" src="assets/scripts/script.js"></script>
     </body>
 </html>

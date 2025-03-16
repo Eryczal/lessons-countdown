@@ -1,3 +1,5 @@
+import { editEventTemplate } from "./templates/editEventTemplate.js";
+
 class Settings {
     static data = {
         theme: "light",
@@ -15,6 +17,12 @@ class Settings {
         this.eventsHolder.events.forEach((event) => {
             document.getElementById(`event-settings-button-${event.id}`).addEventListener("click", (e) => this.clickEventSettings(e));
         });
+
+        document.getElementById("dummy-event").addEventListener("click", (e) => this.clickAddEvent(e));
+    }
+
+    static clickAddEvent(e) {
+        editEventTemplate(null, this.eventsHolder);
     }
 
     static clickEventSettings(e) {}
@@ -25,6 +33,8 @@ class Settings {
         this.eventsHolder.events.forEach((event) => {
             document.getElementById(`event-settings-button-${event.id}`).classList.toggle("active", this.editMode);
         });
+
+        document.getElementById("dummy-event").classList.toggle("active", this.editMode);
     }
 }
 

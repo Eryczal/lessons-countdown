@@ -28,12 +28,25 @@ class CountdownEventsHolder {
         this.events.forEach((event) => {
             eventTemplate("main", event.getData());
         });
+
+        document.getElementById("main").insertAdjacentHTML("beforeend", `<div class="dummy-event" id="dummy-event">Add new countdown</div>`);
     }
 
     updateEvents() {
         this.events.forEach((event) => {
             eventContentTemplate(event.getData());
         });
+    }
+
+    getFreeId() {
+        const usedIds = new Set(this.events.map((event) => event.id));
+
+        let id = 0;
+        while (usedIds.has(id)) {
+            id++;
+        }
+
+        return id;
     }
 }
 
