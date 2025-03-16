@@ -25,7 +25,7 @@ class CountdownEvent {
     started() {
         const now = new Date();
         const eventStart = this.getEventStartDate();
-        const eventEnd = new Date(this.getEventStartDate().getTime() + this.duration * 1000);
+        const eventEnd = new Date(this.getEventStartDate().getTime() + this.duration * 60 * 1000);
 
         return now >= eventStart && now <= eventEnd;
     }
@@ -37,10 +37,10 @@ class CountdownEvent {
 
         if (this.repeating) {
             fromDate = this.started() ? this.getEventStartDate() : new Date(this.getEventStartDate().getTime() - 7 * 24 * 60 * 60 * 1000);
-            toDate = this.started() ? new Date(this.getEventStartDate().getTime() + duration * 1000) : this.getEventStartDate();
+            toDate = this.started() ? new Date(this.getEventStartDate().getTime() + this.duration * 60 * 1000) : this.getEventStartDate();
         } else {
             fromDate = this.started() ? this.startDate : this.creationDate;
-            toDate = this.started() ? new Date(this.startDate.getTime() + duration * 1000) : this.startDate;
+            toDate = this.started() ? new Date(this.startDate.getTime() + this.duration * 60 * 1000) : this.startDate;
         }
 
         const total = toDate - fromDate;
@@ -55,7 +55,7 @@ class CountdownEvent {
 
         if (started) {
             const now = new Date();
-            const endDate = new Date(this.getEventStartDate().getTime() + this.duration);
+            const endDate = new Date(this.getEventStartDate().getTime() + this.duration * 60 * 1000);
 
             return this.timeBetween(now, endDate);
         } else {
@@ -92,7 +92,7 @@ class CountdownEvent {
             this.startDate.getHours(),
             this.startDate.getMinutes()
         );
-        const candidateEndDate = new Date(candidateDate.getTime() + this.duration);
+        const candidateEndDate = new Date(candidateDate.getTime() + this.duration * 60 * 1000);
 
         if ((candidateDate < now && now < candidateEndDate) || now < candidateDate) {
             return candidateDate;
