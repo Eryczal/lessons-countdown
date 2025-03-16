@@ -21,6 +21,7 @@ class Settings {
         document.getElementById("dummy-event").addEventListener("click", (e) => this.clickAddEvent(e));
         document.getElementById("dialog").addEventListener("click", (e) => this.clickDialog(e));
         document.getElementById("dialog-close-button").addEventListener("click", (e) => this.closeDialog(e));
+        document.getElementById("dialog-submit-button").addEventListener("click", (e) => this.submitDialog(e));
     }
 
     static clickAddEvent(e) {
@@ -60,6 +61,36 @@ class Settings {
             },
             { once: true }
         );
+    }
+
+    static submitDialog(e) {
+        let data = {
+            name: document.getElementById("dialog-name").value,
+            startDate: document.getElementById("dialog-start-date").value,
+            duration: document.getElementById("dialog-duration").value,
+            color: document.getElementById("dialog-color"),
+            repeating: document.getElementById("dialog-repeating").checked,
+        };
+
+        if (!data.name || !data.startDate || !data.duration) {
+            return;
+        }
+
+        data.id = this.eventsHolder.getFreeId();
+        data.creationDate = new Date();
+        data.creationDate.setSeconds(0);
+        data.creationDate.setMilliseconds(0);
+
+        data.startDate = new Date(data.startDate);
+        data.startDate.setSeconds(0);
+        data.startDate.setMilliseconds(0);
+
+        const [hours, minutes] = data.duration.split(":").map(Number);
+        data.duration = hours * 60 + minutes;
+
+        data.color = 0;
+
+        this.eventsHolder.addCountdownEvent(data.id, data.name, data.creationDate, data.startDate, data.duration, data.repeating, data.color);
     }
 
     static changeEditMode(e) {
