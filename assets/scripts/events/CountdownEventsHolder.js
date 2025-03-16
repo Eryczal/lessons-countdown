@@ -32,6 +32,12 @@ class CountdownEventsHolder {
         document.getElementById("main").insertAdjacentHTML("beforeend", `<div class="dummy-event" id="dummy-event">Add new countdown</div>`);
     }
 
+    addCountdownEvent(id, name, creationDate, startDate, duration, repeating, color) {
+        this.events.push(new CountdownEvent(id, name, creationDate, startDate, duration, repeating, color));
+        eventTemplate("dummy-event", this.events[this.events.length - 1].getData());
+        //save
+    }
+
     updateEvents() {
         this.events.forEach((event) => {
             eventContentTemplate(event.getData());
