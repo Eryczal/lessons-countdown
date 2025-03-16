@@ -142,3 +142,22 @@ h2 {
     border-radius: 50%;
     background-color: var(--color);
 }
+
+.dummy-event {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    height: 0;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 0;
+    transition: 0.3s ease-in;
+}
+
+.dummy-event.active {
+    height: 8rem;
+    pointer-events: all;
+    border: 4px dotted #e6e6e6;
+    font-size: 1rem;
+}
