@@ -3,6 +3,7 @@ import { floatingMenuTemplate } from "./templates/floatingMenuTemplate.js";
 
 class Settings {
     static data = {
+        menuVisible: false,
         theme: "light",
         lang: "pl",
         editMode: false,
@@ -14,6 +15,7 @@ class Settings {
 
     static init() {
         this.eventHandlers = new Map();
+        document.getElementById("menu-button").addEventListener("click", (e) => this.showMenu(e));
         document.getElementById("edit-mode").addEventListener("click", (e) => this.changeEditMode(e));
 
         this.updateSettingsEvents("add");
@@ -55,6 +57,13 @@ class Settings {
 
         floatingMenuTemplate(e.currentTarget, event);
         this.updateFloatingEvents(e, event, "add");
+    }
+
+    static showMenu(e) {
+        this.menuVisible = !this.menuVisible;
+
+        document.getElementById("aside").classList.toggle("open", this.menuVisible);
+        document.getElementById("main").classList.toggle("shrinked", this.menuVisible);
     }
 
     static clickDialog(e) {

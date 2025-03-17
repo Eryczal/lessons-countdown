@@ -26,6 +26,14 @@ body {
 
 main {
     padding: 0 2rem;
+    box-sizing: border-box;
+    transition: 0.3s ease-in;
+    width: 100%;
+    margin-left: auto;
+}
+
+main.shrinked {
+    width: 85%;
 }
 
 .main-header {
@@ -44,7 +52,7 @@ main {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 2rem;
+    left: 2rem;
 }
 
 .menu-button .bar {
@@ -251,4 +259,18 @@ input:focus {
 
 .floating-option:last-of-type {
     border-bottom: 0;
+}
+
+aside {
+    position: fixed;
+    top: var(--header-height);
+    left: -15%;
+    width: 15%;
+    height: calc(100vh - var(--header-height));
+    background-color: #f9f9f9;
+    transition: 0.3s ease-in;
+}
+
+aside.open {
+    left: 0;
 }
