@@ -66,6 +66,14 @@ class CountdownEventsHolder {
         return this.events.find((event) => event.id === parseInt(id));
     }
 
+    removeEventById(id) {
+        this.events = this.events.filter((event) => event.id !== parseInt(id));
+
+        document.getElementById(`event-${id}`).remove();
+
+        this.saveEvents();
+    }
+
     getFreeId() {
         const usedIds = new Set(this.events.map((event) => event.id));
 

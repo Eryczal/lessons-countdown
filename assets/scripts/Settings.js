@@ -13,11 +13,10 @@ class Settings {
     }
 
     static init() {
+        this.eventHandlers = new Map();
         document.getElementById("edit-mode").addEventListener("click", (e) => this.changeEditMode(e));
 
-        this.eventsHolder.events.forEach((event) => {
-            document.getElementById(`event-settings-button-${event.id}`).addEventListener("click", (e) => this.clickEventSettings(e, event));
-        });
+        this.updateSettingsEvents("add");
 
         document.getElementById("dummy-event").addEventListener("click", (e) => this.clickAddEvent(e));
         document.getElementById("dialog").addEventListener("click", (e) => this.clickDialog(e));
@@ -32,12 +31,17 @@ class Settings {
     static clickEditEvent(e, event) {
         this.updateFloatingEvents(e, event, "remove");
         document.getElementById(`floating-menu-${event.id}`).remove();
+
         eventDialogTemplate(event);
     }
 
     static clickRemoveEvent(e, event) {
         this.updateFloatingEvents(e, event, "remove");
         document.getElementById(`floating-menu-${event.id}`).remove();
+
+        this.updateSettingsEvents("remove");
+        this.eventsHolder.removeEventById(event.id);
+        this.updateSettingsEvents("add");
     }
 
     static clickEventSettings(e, event) {
@@ -51,19 +55,6 @@ class Settings {
 
         floatingMenuTemplate(e.currentTarget, event);
         this.updateFloatingEvents(e, event, "add");
-    }
-
-    static updateFloatingEvents(e, event, action) {
-        const editHandler = (e) => this.clickEditEvent(e, event);
-        const removeHandler = (e) => this.clickRemoveEvent(e, event);
-
-        if (action === "add") {
-            document.getElementById(`floating-edit-${event.id}`).addEventListener("click", editHandler);
-            document.getElementById(`floating-remove-${event.id}`).addEventListener("click", removeHandler);
-        } else if (action === "remove") {
-            document.getElementById(`floating-edit-${event.id}`).removeEventListener("click", editHandler);
-            document.getElementById(`floating-remove-${event.id}`).removeEventListener("click", removeHandler);
-        }
     }
 
     static clickDialog(e) {
@@ -130,6 +121,10 @@ class Settings {
         data.color = 0;
 
         this.eventsHolder.addCountdownEvent(data.id, data.name, data.creationDate, data.startDate, data.duration, data.repeating, data.color);
+
+        if (eventId === "null") {
+            this.updateSettingsEvents("add", this.eventsHolder.getEventById(data.id));
+        }
     }
 
     static changeEditMode(e) {
@@ -140,6 +135,75 @@ class Settings {
         });
 
         document.getElementById("dummy-event").classList.toggle("active", this.editMode);
+    }
+
+    static updateSettingsEvents(action, event = null) {
+        const events = event ? [event] : this.eventsHolder.events;
+
+        if (action === "add") {
+            events.forEach((event) => {
+                const clickHandler = (e) => this.clickEventSettings(e, event);
+
+                document.getElementById(`event-settings-button-${event.id}`).addEventListener("click", clickHandler);
+
+                const handlers = this.eventHandlers.get(event.id) || {};
+                handlers.settingsButton = clickHandler;
+
+                this.eventHandlers.set(event.id, handlers);
+            });
+        } else if (action === "remove") {
+            events.forEach((event) => {
+                const handlers = this.eventHandlers.get(event.id);
+
+                if (handlers && handlers.settingsButton) {
+                    document.getElementById(`event-settings-button-${event.id}`).removeEventListener("click", handlers.settingsButton);
+
+                    delete handlers.settingsButton;
+                }
+
+                if (handlers && Object.keys(handlers).length === 0) {
+                    this.eventHandlers.delete(event.id);
+                } else if (handlers) {
+                    this.eventHandlers.set(event.id, handlers);
+                }
+            });
+        }
+    }
+
+    static updateFloatingEvents(e, event, action) {
+        if (action === "add") {
+            const editHandler = (e) => this.clickEditEvent(e, event);
+            const removeHandler = (e) => this.clickRemoveEvent(e, event);
+
+            document.getElementById(`floating-edit-${event.id}`).addEventListener("click", editHandler);
+            document.getElementById(`floating-remove-${event.id}`).addEventListener("click", removeHandler);
+
+            const handlers = this.eventHandlers.get(event.id) || {};
+            handlers.floatingEdit = editHandler;
+            handlers.floatingRemove = removeHandler;
+
+            this.eventHandlers.set(event.id, handlers);
+        } else if (action === "remove") {
+            const handlers = this.eventHandlers.get(event.id);
+
+            if (handlers) {
+                if (handlers.floatingEdit) {
+                    document.getElementById(`floating-edit-${event.id}`).removeEventListener("click", handlers.floatingEdit);
+                    delete handlers.floatingEdit;
+                }
+
+                if (handlers.floatingRemove) {
+                    document.getElementById(`floating-remove-${event.id}`).removeEventListener("click", handlers.floatingRemove);
+                    delete handlers.floatingRemove;
+                }
+
+                if (Object.keys(handlers).length === 0) {
+                    this.eventHandlers.delete(event.id);
+                } else {
+                    this.eventHandlers.set(event.id, handlers);
+                }
+            }
+        }
     }
 }
 
