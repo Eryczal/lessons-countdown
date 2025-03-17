@@ -30,26 +30,40 @@ class Settings {
     }
 
     static clickEditEvent(e, event) {
+        this.updateFloatingEvents(e, event, "remove");
+        document.getElementById(`floating-menu-${event.id}`).remove();
         eventDialogTemplate(event);
     }
 
-    static clickRemoveEvent(e, event) {}
+    static clickRemoveEvent(e, event) {
+        this.updateFloatingEvents(e, event, "remove");
+        document.getElementById(`floating-menu-${event.id}`).remove();
+    }
 
     static clickEventSettings(e, event) {
         const nextElement = e.currentTarget.nextElementSibling;
-        const editHandler = (e) => this.clickEditEvent(e, event);
-        const removeHandler = (e) => this.clickRemoveEvent(e, event);
 
         if (nextElement) {
-            document.getElementById(`floating-edit-${event.id}`).removeEventListener("click", editHandler);
-            document.getElementById(`floating-remove-${event.id}`).removeEventListener("click", removeHandler);
+            this.updateFloatingEvents(e, event, "remove");
             nextElement.remove();
             return;
         }
 
         floatingMenuTemplate(e.currentTarget, event);
-        document.getElementById(`floating-edit-${event.id}`).addEventListener("click", editHandler);
-        document.getElementById(`floating-remove-${event.id}`).addEventListener("click", removeHandler);
+        this.updateFloatingEvents(e, event, "add");
+    }
+
+    static updateFloatingEvents(e, event, action) {
+        const editHandler = (e) => this.clickEditEvent(e, event);
+        const removeHandler = (e) => this.clickRemoveEvent(e, event);
+
+        if (action === "add") {
+            document.getElementById(`floating-edit-${event.id}`).addEventListener("click", editHandler);
+            document.getElementById(`floating-remove-${event.id}`).addEventListener("click", removeHandler);
+        } else if (action === "remove") {
+            document.getElementById(`floating-edit-${event.id}`).removeEventListener("click", editHandler);
+            document.getElementById(`floating-remove-${event.id}`).removeEventListener("click", removeHandler);
+        }
     }
 
     static clickDialog(e) {
