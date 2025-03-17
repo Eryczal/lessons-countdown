@@ -23,12 +23,16 @@ class CountdownEvent {
     }
 
     updateData(name, creationDate, startDate, duration, repeating, color) {
+        document.getElementById(`event-bar-${this.id}`).classList.remove(`countdown-color-${this.color}`);
+
         this.name = name;
         this.creationDate = creationDate;
         this.startDate = startDate;
         this.duration = duration;
         this.repeating = repeating;
         this.color = color;
+
+        document.getElementById(`event-bar-${this.id}`).classList.add(`countdown-color-${this.color}`);
     }
 
     started() {

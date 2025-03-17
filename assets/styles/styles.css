@@ -233,10 +233,44 @@ input:focus {
     display: flex;
     flex-direction: row;
     gap: 0.4rem;
+    align-items: center;
 }
 
-.select-container select {
+.dialog-color {
     flex: 1;
+    border-radius: 0.5rem;
+    border: 1px solid #d9d9d9;
+    height: 1.5em;
+    cursor: pointer;
+    position: relative;
+}
+
+.dialog-color-picker {
+    position: absolute;
+    top: 2em;
+    left: 0;
+    right: 0;
+    border-radius: 0.5rem;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    display: none;
+}
+
+.dialog-color-picker.open {
+    display: block;
+}
+
+.dialog-color-option {
+    height: 1.5em;
+    width: 100%;
+    border-radius: 0.5rem;
+    border-bottom: 1px solid #d9d9d9;
+    margin: 2px 0;
+    cursor: pointer;
+}
+
+.dialog-color-option:last-of-type {
+    border-bottom: 0;
 }
 
 .floating-menu {
