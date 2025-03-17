@@ -1,4 +1,4 @@
-import { editEventTemplate } from "./templates/editEventTemplate.js";
+import { eventDialogTemplate } from "./templates/eventDialogTemplate.js";
 import { floatingMenuTemplate } from "./templates/floatingMenuTemplate.js";
 
 class Settings {
@@ -26,10 +26,12 @@ class Settings {
     }
 
     static clickAddEvent(e) {
-        editEventTemplate(null, this.eventsHolder);
+        eventDialogTemplate(null);
     }
 
-    static clickEditEvent(e, event) {}
+    static clickEditEvent(e, event) {
+        eventDialogTemplate(event);
+    }
 
     static clickRemoveEvent(e, event) {}
 
@@ -84,8 +86,13 @@ class Settings {
     }
 
     static submitDialog(e) {
+        const eventId = e.currentTarget.dataset.eventId;
+        const event = eventId === "null" ? "null" : this.eventsHolder.getEventById(eventId);
+
         let data = {
+            id: eventId === "null" ? this.eventsHolder.getFreeId() : eventId,
             name: document.getElementById("dialog-name").value,
+            creationDate: eventId === "null" ? new Date() : event.creationDate,
             startDate: document.getElementById("dialog-start-date").value,
             duration: document.getElementById("dialog-duration").value,
             color: document.getElementById("dialog-color"),
@@ -96,8 +103,6 @@ class Settings {
             return;
         }
 
-        data.id = this.eventsHolder.getFreeId();
-        data.creationDate = new Date();
         data.creationDate.setSeconds(0);
         data.creationDate.setMilliseconds(0);
 
