@@ -22,6 +22,15 @@ class CountdownEvent {
         return data;
     }
 
+    updateData(name, creationDate, startDate, duration, repeating, color) {
+        this.name = name;
+        this.creationDate = creationDate;
+        this.startDate = startDate;
+        this.duration = duration;
+        this.repeating = repeating;
+        this.color = color;
+    }
+
     started() {
         const now = new Date();
         const eventStart = this.getEventStartDate();

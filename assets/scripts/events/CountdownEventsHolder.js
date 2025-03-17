@@ -44,8 +44,15 @@ class CountdownEventsHolder {
     }
 
     addCountdownEvent(id, name, creationDate, startDate, duration, repeating, color) {
-        this.events.push(new CountdownEvent(id, name, creationDate, startDate, duration, repeating, color));
-        eventTemplate("dummy-event", this.events[this.events.length - 1].getData());
+        const event = this.getEventById(id);
+
+        if (event) {
+            event.updateData(name, creationDate, startDate, duration, repeating, color);
+        } else {
+            this.events.push(new CountdownEvent(id, name, creationDate, startDate, duration, repeating, color));
+            eventTemplate("dummy-event", this.events[this.events.length - 1].getData());
+        }
+
         this.saveEvents();
     }
 
@@ -53,6 +60,10 @@ class CountdownEventsHolder {
         this.events.forEach((event) => {
             eventContentTemplate(event.getData());
         });
+    }
+
+    getEventById(id) {
+        return this.events.find((event) => event.id === parseInt(id));
     }
 
     getFreeId() {
