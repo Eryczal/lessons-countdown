@@ -33,7 +33,7 @@ const eventContentTemplate = (data) => {
     `;
 
     const barTemplate = `
-        <div class="event-countdown-bar">
+        <div id="event-bar-${data.id}" class="event-countdown-bar countdown-color-${data.color}">
             <div id="event-bar-cover-${data.id}" class="event-bar-cover" style="width: ${100 - data.percentage}%"></div>
             <div id="event-bar-text-${data.id}" class="event-bar-text">${data.percentage.toFixed(4)}%</div>
         </div>

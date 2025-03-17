@@ -1,9 +1,11 @@
+import { colors } from "./data/colors.js";
 import { eventDialogTemplate } from "./templates/eventDialogTemplate.js";
 import { floatingMenuTemplate } from "./templates/floatingMenuTemplate.js";
 
 class Settings {
     static data = {
         menuVisible: false,
+        colorPickerVisible: false,
         theme: "light",
         lang: "pl",
         editMode: false,
@@ -24,6 +26,27 @@ class Settings {
         document.getElementById("dialog").addEventListener("click", (e) => this.clickDialog(e));
         document.getElementById("dialog-close-button").addEventListener("click", (e) => this.closeDialog(e));
         document.getElementById("dialog-submit-button").addEventListener("click", (e) => this.submitDialog(e));
+
+        const colorPicker = document.getElementById("dialog-color-picker");
+
+        document.getElementById("dialog-color").addEventListener("click", (e) => this.showColorPicker(e));
+
+        let css = "";
+
+        colors.forEach((color, i) => {
+            document
+                .getElementById("dialog-color-picker")
+                .insertAdjacentHTML("beforeend", `<div id="dialog-color-option-${i}" class="dialog-color-option countdown-color-${i}"></div>`);
+            document.getElementById(`dialog-color-option-${i}`).addEventListener("click", (e) => this.setDialogColor(e, i));
+
+            css += `
+                .countdown-color-${i} {
+                    background: linear-gradient(to right, ${color.join(", ")})
+                }
+            `;
+        });
+
+        document.getElementById("countdown-colors").innerHTML = css;
     }
 
     static clickAddEvent(e) {
@@ -64,6 +87,22 @@ class Settings {
 
         document.getElementById("aside").classList.toggle("open", this.menuVisible);
         document.getElementById("main").classList.toggle("shrinked", this.menuVisible);
+    }
+
+    static showColorPicker(e) {
+        this.colorPickerVisible = !this.colorPickerVisible;
+
+        document.getElementById("dialog-color-picker").classList.toggle("open", this.colorPickerVisible);
+    }
+
+    static setDialogColor(e, i) {
+        const dialogColor = document.getElementById("dialog-color");
+
+        if (dialogColor.dataset.value !== undefined) {
+            document.getElementById("dialog-color").classList.remove(`countdown-color-${dialogColor.dataset.value}`);
+        }
+        document.getElementById("dialog-color").classList.add(`countdown-color-${i}`);
+        document.getElementById("dialog-color").dataset.value = i;
     }
 
     static clickDialog(e) {
@@ -109,7 +148,7 @@ class Settings {
             creationDate: eventId === "null" ? new Date() : event.creationDate,
             startDate: document.getElementById("dialog-start-date").value,
             duration: document.getElementById("dialog-duration").value,
-            color: document.getElementById("dialog-color"),
+            color: document.getElementById("dialog-color").dataset.value,
             repeating: document.getElementById("dialog-repeating").checked,
         };
 
@@ -126,8 +165,6 @@ class Settings {
 
         const [hours, minutes] = data.duration.split(":").map(Number);
         data.duration = hours * 60 + minutes;
-
-        data.color = 0;
 
         this.eventsHolder.addCountdownEvent(data.id, data.name, data.creationDate, data.startDate, data.duration, data.repeating, data.color);
 

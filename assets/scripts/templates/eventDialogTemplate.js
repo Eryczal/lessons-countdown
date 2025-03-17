@@ -16,6 +16,7 @@ const eventDialogTemplate = (data) => {
         name: data?.name || "",
         startDate: data ? formatDate(data.startDate) : formatDate(new Date()),
         duration: data ? `${pad(Math.floor(data.duration / 60))}:${pad(data.duration % 60)}` : "01:00",
+        color: data ? data.color : 0,
     };
 
     const dialog = document.getElementById("dialog");
@@ -27,7 +28,8 @@ const eventDialogTemplate = (data) => {
     dialog.querySelector("#dialog-name").value = displayData.name;
     dialog.querySelector("#dialog-start-date").value = displayData.startDate;
     dialog.querySelector("#dialog-duration").value = displayData.duration;
-    //color
+    dialog.querySelector("#dialog-color").classList.add(`countdown-color-${displayData.color}`);
+    dialog.querySelector("#dialog-color").dataset.value = displayData.color;
     dialog.querySelector("#dialog-repeating").checked = data ? data.repeating : true;
 
     dialog.showModal();
