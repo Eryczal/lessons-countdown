@@ -141,10 +141,12 @@ h2 {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    transition: height var(--transition-speed);
 }
 
 .event-content-container {
     flex: 1;
+    overflow: hidden;
 }
 
 .event-top-info {
@@ -241,9 +243,10 @@ h2 {
     pointer-events: none;
     height: 0;
     border-radius: 1rem;
+    border: 4px dotted transparent;
     cursor: pointer;
     font-size: 0;
-    transition: height var(--transition-speed);
+    transition: height var(--transition-speed), font-size var(--transition-speed), border var(--transition-speed);
 }
 
 .dummy-event.active {
