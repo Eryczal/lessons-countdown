@@ -4,7 +4,7 @@ const eventTemplate = (container, data) => {
             <div class="event-content-container">
                 <div class="event-top-info" id="event-top-info-${data.id}">
                     <header>
-                        <h2>${data.name}</h2>
+                        <h2 id="event-header-${data.id}">${data.name}</h2>
                     </header>
                 </div>
                 <div class="event-bar-container" id="event-bar-container-${data.id}"></div>

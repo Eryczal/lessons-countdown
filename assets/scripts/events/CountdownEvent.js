@@ -32,6 +32,7 @@ class CountdownEvent {
         this.repeating = repeating;
         this.color = color;
 
+        document.getElementById(`event-header-${this.id}`).textContent = this.name;
         document.getElementById(`event-bar-${this.id}`).classList.add(`countdown-color-${this.color}`);
     }
 
