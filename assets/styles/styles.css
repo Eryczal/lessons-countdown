@@ -102,12 +102,22 @@ main.shrinked {
     z-index: 7;
 }
 
+.menu-button-container {
+    height: var(--header-height);
+    width: var(--header-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--header-background);
+    box-shadow: 0 1px 3px 0 var(--header-shadow-color);
+}
+
 .menu-button {
     cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 2rem;
+    top: calc(var(--header-height) / 2);
 }
 
 .menu-button .bar {
@@ -390,15 +400,17 @@ input:focus {
 
 aside {
     position: fixed;
-    top: var(--header-height);
+    top: 0;
     left: -15%;
     width: 15%;
-    height: calc(100vh - var(--header-height));
+    height: 100vh;
     background-color: var(--aside-background);
     transition: left var(--transition-speed);
     box-shadow: 0 1px 3px 0 var(--aside-shadow-color);
     padding: 1.5rem 1rem;
+    padding-top: calc(1.5rem + var(--header-height));
     box-sizing: border-box;
+    z-index: 5;
 }
 
 aside.open {
