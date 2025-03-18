@@ -69,7 +69,21 @@ class CountdownEventsHolder {
     removeEventById(id) {
         this.events = this.events.filter((event) => event.id !== parseInt(id));
 
-        document.getElementById(`event-${id}`).remove();
+        const event = document.getElementById(`event-${id}`);
+        const height = event.offsetHeight + "px";
+
+        event.style.height = height;
+
+        setTimeout(() => {
+            event.style.height = 0;
+            event.addEventListener(
+                "transitionend",
+                () => {
+                    event.remove();
+                },
+                { once: true }
+            );
+        }, 5);
 
         this.saveEvents();
     }
