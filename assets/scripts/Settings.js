@@ -209,6 +209,12 @@ class Settings {
             document.getElementById(`event-settings-button-${event.id}`).classList.toggle("active", this.data.editMode);
         });
 
+        if (!this.data.editMode) {
+            [...document.getElementsByClassName("floating-menu")].forEach((menu) => {
+                menu.remove();
+            });
+        }
+
         document.getElementById("dummy-event").classList.toggle("active", this.data.editMode);
     }
 
