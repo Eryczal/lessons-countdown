@@ -60,14 +60,16 @@ class Settings {
 
     static clickEditEvent(e, event) {
         this.updateFloatingEvents(e, event, "remove");
-        document.getElementById(`floating-menu-${event.id}`).remove();
+
+        this.closeMenu(event.id);
 
         eventDialogTemplate(event);
     }
 
     static clickRemoveEvent(e, event) {
         this.updateFloatingEvents(e, event, "remove");
-        document.getElementById(`floating-menu-${event.id}`).remove();
+
+        this.closeMenu(event.id);
 
         this.updateSettingsEvents("remove");
         this.eventsHolder.removeEventById(event.id);
@@ -79,7 +81,7 @@ class Settings {
 
         if (nextElement) {
             this.updateFloatingEvents(e, event, "remove");
-            nextElement.remove();
+            this.closeMenu(nextElement);
             return;
         }
 
@@ -167,6 +169,19 @@ class Settings {
         );
     }
 
+    static closeMenu(elem) {
+        const element = typeof elem === "number" ? document.getElementById(`floating-menu-${elem}`) : elem;
+
+        element.classList.remove("active");
+        element.addEventListener(
+            "transitionend",
+            (e) => {
+                element.remove();
+            },
+            { once: true }
+        );
+    }
+
     static submitDialog(e) {
         const eventId = e.currentTarget.dataset.eventId;
         const event = eventId === "null" ? "null" : this.eventsHolder.getEventById(eventId);
@@ -211,7 +226,7 @@ class Settings {
 
         if (!this.data.editMode) {
             [...document.getElementsByClassName("floating-menu")].forEach((menu) => {
-                menu.remove();
+                this.closeMenu(menu);
             });
         }
 
