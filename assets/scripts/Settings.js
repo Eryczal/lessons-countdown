@@ -6,7 +6,7 @@ class Settings {
     static data = {
         menuVisible: false,
         colorPickerVisible: false,
-        theme: "light",
+        darkMode: false,
         lang: "pl",
         editMode: false,
     };
@@ -19,6 +19,7 @@ class Settings {
         this.eventHandlers = new Map();
         document.getElementById("menu-button").addEventListener("click", (e) => this.showMenu(e));
         document.getElementById("edit-mode").addEventListener("click", (e) => this.changeEditMode(e));
+        document.getElementById("dark-mode").addEventListener("click", (e) => this.changeDarkMode(e));
 
         this.updateSettingsEvents("add");
 
@@ -47,6 +48,10 @@ class Settings {
         });
 
         document.getElementById("countdown-colors").innerHTML = css;
+
+        if (document.getElementsByTagName("body")[0].classList.contains("dark")) {
+            document.getElementById("dark-mode").checked = true;
+        }
     }
 
     static clickAddEvent(e) {
@@ -181,6 +186,14 @@ class Settings {
         });
 
         document.getElementById("dummy-event").classList.toggle("active", this.editMode);
+    }
+
+    static changeDarkMode(e) {
+        this.darkMode = e.currentTarget.checked;
+
+        document.getElementsByTagName("body")[0].classList.toggle("dark", this.darkMode);
+
+        localStorage.setItem("darkMode", this.darkMode);
     }
 
     static updateSettingsEvents(action, event = null) {
