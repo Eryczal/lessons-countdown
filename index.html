@@ -14,11 +14,9 @@
     </head>
     <body>
         <script>
-            if (
-                window.matchMedia &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches &&
-                (localStorage.getItem("darkMode") === "true" || !localStorage.getItem("darkMode"))
-            ) {
+            const settings = localStorage.getItem("settings");
+            const parsed = settings ? JSON.parse(settings) : null;
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches && (!settings || parsed?.darkMode === true)) {
                 document.body.classList.add("dark");
             }
         </script>
@@ -34,6 +32,7 @@
         <aside id="aside">
             <div><input type="checkbox" id="edit-mode" autocomplete="off" /> Edit mode</div>
             <div><input type="checkbox" id="dark-mode" autocomplete="off" /> Dark mode</div>
+            <div><input type="checkbox" id="invert-colors" autocomplete="off" /> Invert colors on start</div>
         </aside>
         <dialog id="dialog">
             <h2 id="dialog-header">Add countdown</h2>

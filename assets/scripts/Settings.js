@@ -7,6 +7,7 @@ class Settings {
         menuVisible: false,
         colorPickerVisible: false,
         darkMode: false,
+        invertColors: false,
         lang: "pl",
         editMode: false,
     };
@@ -20,6 +21,7 @@ class Settings {
         document.getElementById("menu-button").addEventListener("click", (e) => this.showMenu(e));
         document.getElementById("edit-mode").addEventListener("click", (e) => this.changeEditMode(e));
         document.getElementById("dark-mode").addEventListener("click", (e) => this.changeDarkMode(e));
+        document.getElementById("invert-colors").addEventListener("click", (e) => this.invertColors(e));
 
         this.updateSettingsEvents("add");
 
@@ -41,7 +43,7 @@ class Settings {
             document.getElementById(`dialog-color-option-${i}`).addEventListener("click", (e) => this.setDialogColor(e, i));
 
             css += `
-                .countdown-color-${i} {
+                .countdown-color-${i}::before {
                     background: linear-gradient(to right, ${color.join(", ")})
                 }
             `;
@@ -49,9 +51,7 @@ class Settings {
 
         document.getElementById("countdown-colors").innerHTML = css;
 
-        if (document.getElementsByTagName("body")[0].classList.contains("dark")) {
-            document.getElementById("dark-mode").checked = true;
-        }
+        this.loadData();
     }
 
     static clickAddEvent(e) {
@@ -88,16 +88,16 @@ class Settings {
     }
 
     static showMenu(e) {
-        this.menuVisible = !this.menuVisible;
+        this.data.menuVisible = !this.data.menuVisible;
 
-        document.getElementById("aside").classList.toggle("open", this.menuVisible);
-        document.getElementById("main").classList.toggle("shrinked", this.menuVisible);
+        document.getElementById("aside").classList.toggle("open", this.data.menuVisible);
+        document.getElementById("main").classList.toggle("shrinked", this.data.menuVisible);
     }
 
     static showColorPicker(e) {
-        this.colorPickerVisible = !this.colorPickerVisible;
+        this.data.colorPickerVisible = !this.data.colorPickerVisible;
 
-        document.getElementById("dialog-color-picker").classList.toggle("open", this.colorPickerVisible);
+        document.getElementById("dialog-color-picker").classList.toggle("open", this.data.colorPickerVisible);
     }
 
     static setDialogColor(e, i) {
@@ -129,6 +129,30 @@ class Settings {
                 );
             }
         }
+    }
+
+    static loadData() {
+        if (localStorage.getItem("settings")) {
+            const data = JSON.parse(localStorage.getItem("settings"));
+
+            this.data.lang = data.lang;
+            this.data.invertColors = data.invertColors;
+        }
+
+        this.data.darkMode = document.getElementsByTagName("body")[0].classList.contains("dark");
+
+        document.getElementById("dark-mode").checked = this.data.darkMode;
+        document.getElementById("invert-colors").checked = this.data.invertColors;
+    }
+
+    static saveData() {
+        const data = {
+            darkMode: this.data.darkMode,
+            lang: this.data.lang,
+            invertColors: this.data.invertColors,
+        };
+
+        localStorage.setItem("settings", JSON.stringify(data));
     }
 
     static closeDialog(e) {
@@ -179,21 +203,33 @@ class Settings {
     }
 
     static changeEditMode(e) {
-        this.editMode = e.currentTarget.checked;
+        this.data.editMode = e.currentTarget.checked;
 
         this.eventsHolder.events.forEach((event) => {
-            document.getElementById(`event-settings-button-${event.id}`).classList.toggle("active", this.editMode);
+            document.getElementById(`event-settings-button-${event.id}`).classList.toggle("active", this.data.editMode);
         });
 
-        document.getElementById("dummy-event").classList.toggle("active", this.editMode);
+        document.getElementById("dummy-event").classList.toggle("active", this.data.editMode);
     }
 
     static changeDarkMode(e) {
-        this.darkMode = e.currentTarget.checked;
+        this.data.darkMode = e.currentTarget.checked;
 
-        document.getElementsByTagName("body")[0].classList.toggle("dark", this.darkMode);
+        document.getElementsByTagName("body")[0].classList.toggle("dark", this.data.darkMode);
 
-        localStorage.setItem("darkMode", this.darkMode);
+        this.saveData();
+    }
+
+    static invertColors(e) {
+        this.data.invertColors = e.currentTarget.checked;
+
+        this.eventsHolder.events.forEach((event) => {
+            if (event.started()) {
+                document.getElementById(`event-bar-${event.id}`).classList.toggle("inverted", this.data.invertColors);
+            }
+        });
+
+        this.saveData();
     }
 
     static updateSettingsEvents(action, event = null) {
