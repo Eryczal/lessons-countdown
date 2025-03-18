@@ -208,6 +208,7 @@ h2 {
     font-size: var(--countdown-percentage-size);
     -webkit-text-stroke: 0.08em var(--background-color);
     paint-order: stroke fill;
+    z-index: 5;
 }
 
 .settings-button-container {
