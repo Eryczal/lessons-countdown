@@ -18,13 +18,15 @@
     --countdown-height: 4rem;
     --countdown-percentage-size: 1.4rem;
 
-    --dialog-background: #fff;
+    --dialog-background: #f9f9f9;
     --dialog-box-shadow: 1px 1px 3px 0 #606060;
 
     --input-text: #111;
     --input-background: #fff;
     --input-border: #ececec;
     --input-border-focus: #aa9aec;
+    --button-shadow-color: #e3e3e3;
+    --button-background-hover: #fcfcfc;
     --color-picker-background: #fff;
     --color-option-border: #d3d3d3;
 
@@ -60,6 +62,8 @@ body.dark {
     --input-background: #111;
     --input-border: #6c6c6c;
     --input-border-focus: #7b6c9c;
+    --button-shadow-color: #262626;
+    --button-background-hover: #161616;
     --color-picker-background: #111;
     --color-option-border: #363636;
 
@@ -376,6 +380,29 @@ input:focus {
 
 .dialog-color-option:last-of-type {
     border-bottom: 0;
+}
+
+.dialog-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.dialog-buttons-container button {
+    flex: 1;
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border);
+    box-shadow: 1px 1px 3px 0 var(--button-shadow-color);
+    outline: 0;
+    padding: 1rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--color);
+}
+
+.dialog-buttons-container button:hover {
+    background-color: var(--button-background-hover);
 }
 
 .floating-menu {
