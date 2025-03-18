@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Lessons Countdown</title>
-		<meta charset="utf-8" />
-		<meta name="author" content="Eryczal" />
-		<meta name="keywords" content="Lessons, Countdown" />
-		<meta name="description" content="Lessons Countdown." />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="assets/styles/styles.css" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" />
-		<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
-	</head>
-	<body id="body">
-		<header id="header">
-			<div id="more_button">
-				<div id="bar1"></div>
-				<div id="bar2"></div>
-				<div id="bar3"></div>
-			</div>
-			<h1 id="main_header">Lessons Countdown</h1>
-		</header>
-		<aside id="aside">
-			<h2>Settings</h2>
-			<h3>General</h3>
-			<div class="general_settings">
-				<p><input type="checkbox" autocomplete="off" id="group_day" /> Group by day</p>
-				<p><input type="checkbox" autocomplete="off" id="dark_mode" /> Dark mode</p>
-				<p><input type="checkbox" autocomplete="off" id="invert_color" checked /> Invert bar colors on start</p>
-				<p><input type="checkbox" autocomplete="off" id="edit_mode" /> Edit mode</p>
-			</div>
-			<h3>Bar color</h3>
-			<div id="select_temp_bar"></div>
-		</aside>
-		<main id="main"></main>
-		<div style="clear: both"></div>
-		<script type="module" src="assets/scripts/script.js"></script>
-	</body>
+    <head>
+        <title>Lessons Countdown</title>
+        <meta charset="utf-8" />
+        <meta name="author" content="Eryczal" />
+        <meta name="keywords" content="Lessons, Countdown" />
+        <meta name="description" content="Lessons Countdown." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="assets/styles/styles.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
+        <style id="countdown-colors"></style>
+    </head>
+    <body>
+        <script>
+            const settings = localStorage.getItem("settings");
+            const parsed = settings ? JSON.parse(settings) : null;
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches && (!settings || parsed?.darkMode === true)) {
+                document.body.classList.add("dark");
+            }
+        </script>
+        <header class="main-header">
+            <h1>Lessons Countdown</h1>
+            <div class="menu-button-container">
+                <div class="menu-button" id="menu-button">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </header>
+        <main id="main"></main>
+        <aside id="aside">
+            <div><input type="checkbox" id="edit-mode" autocomplete="off" /> Edit mode</div>
+            <div><input type="checkbox" id="dark-mode" autocomplete="off" /> Dark mode</div>
+            <div><input type="checkbox" id="invert-colors" autocomplete="off" /> Invert colors on start</div>
+        </aside>
+        <dialog id="dialog">
+            <h2 id="dialog-header">Add countdown</h2>
+            <div>
+                <label for="dialog-name">Name</label>
+                <input type="text" id="dialog-name" />
+            </div>
+            <div>
+                <label for="dialog-start-date">Start date</label>
+                <input type="datetime-local" id="dialog-start-date" />
+            </div>
+            <div>
+                <label for="dialog-duration">Duration</label>
+                <input type="time" id="dialog-duration" />
+            </div>
+            <div class="select-container">
+                <label for="dialog-color">Color</label>
+                <div id="dialog-color" class="dialog-color">
+                    <div id="dialog-color-picker" class="dialog-color-picker"></div>
+                </div>
+            </div>
+            <div>
+                <input type="checkbox" id="dialog-repeating" />
+                <label for="dialog-repeating" class="label-same-line">Repeating</label>
+            </div>
+            <div class="dialog-buttons-container">
+                <button id="dialog-close-button">Close</button>
+                <button id="dialog-submit-button">Add</button>
+            </div>
+        </dialog>
+        <script type="module" src="assets/scripts/script.js"></script>
+    </body>
 </html>
