@@ -60,12 +60,12 @@ body.dark {
     --input-background: #111;
     --input-border: #6c6c6c;
     --input-border-focus: #7b6c9c;
-    --color-picker-background: #fff;
-    --color-option-border: #d3d3d3;
+    --color-picker-background: #111;
+    --color-option-border: #363636;
 
-    --floating-menu-background: #fff;
-    --floating-menu-shadow: #d6d6d6;
-    --floating-option-border: #d9d9d9;
+    --floating-menu-background: #131313;
+    --floating-menu-shadow: #111;
+    --floating-option-border: #363636;
 }
 
 body {
@@ -76,11 +76,14 @@ body {
 }
 
 main {
-    padding: 0 2rem;
+    padding: 1rem 2rem;
     box-sizing: border-box;
     transition: width var(--transition-speed);
     width: 100%;
     margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 main.shrinked {
@@ -120,7 +123,6 @@ h2 {
 }
 
 .event-container {
-    margin: 1rem 0;
     padding: 1rem;
     padding-bottom: 2rem;
     border-radius: 1rem;
