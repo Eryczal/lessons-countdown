@@ -1,6 +1,6 @@
 :root {
     --header-height: 4rem;
-    --header-font-size: 1.2rem;
+    --header-font-size: min(1.2rem, 3vw);
     --header-background: #f9f9f9;
     --header-shadow-color: #ececec;
 
@@ -360,8 +360,45 @@ aside {
     background-color: var(--aside-background);
     transition: left var(--transition-speed);
     box-shadow: 0 1px 3px 0 var(--aside-shadow-color);
+    padding: 1.5rem 1rem;
+    box-sizing: border-box;
 }
 
 aside.open {
     left: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    aside {
+        left: -30%;
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .event-top-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-difference-info {
+        flex-direction: column;
+    }
+
+    .event-difference-header {
+        align-self: center;
+    }
+
+    main.shrinked {
+        width: 100%;
+    }
+
+    aside {
+        left: -50%;
+        width: 50%;
+    }
+
+    dialog {
+        padding: 2rem 4rem;
+    }
 }
