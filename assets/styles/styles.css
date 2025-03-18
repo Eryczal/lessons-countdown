@@ -165,9 +165,23 @@ h2 {
     justify-content: flex-end;
 }
 
+.event-countdown-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.event-countdown-bar.inverted::before {
+    transform: scaleX(-1);
+}
+
 .event-bar-cover {
     height: 100%;
     background-color: var(--event-bar-cover-color);
+    z-index: 3;
 }
 
 .event-bar-text {
@@ -176,6 +190,8 @@ h2 {
     right: 0;
     text-align: center;
     font-size: var(--countdown-percentage-size);
+    -webkit-text-stroke: 0.08em var(--background-color);
+    paint-order: stroke fill;
 }
 
 .settings-button-container {
@@ -339,6 +355,7 @@ input:focus {
     border-radius: 1rem;
     white-space: nowrap;
     text-align: center;
+    z-index: 5;
 }
 
 .floating-option {

@@ -1,3 +1,5 @@
+import { Settings } from "../Settings.js";
+
 const eventContentTemplate = (data) => {
     const { days, hours, minutes, seconds } = data.diff;
 
@@ -33,7 +35,9 @@ const eventContentTemplate = (data) => {
     `;
 
     const barTemplate = `
-        <div id="event-bar-${data.id}" class="event-countdown-bar countdown-color-${data.color}">
+        <div id="event-bar-${data.id}" class="event-countdown-bar countdown-color-${data.color} ${
+        data.started && Settings.data.invertColors ? "inverted" : ""
+    }">
             <div id="event-bar-cover-${data.id}" class="event-bar-cover" style="width: ${100 - data.percentage}%"></div>
             <div id="event-bar-text-${data.id}" class="event-bar-text">${data.percentage.toFixed(4)}%</div>
         </div>
@@ -50,6 +54,10 @@ const eventContentTemplate = (data) => {
         document.getElementById(`event-difference-time-${data.id}`).textContent = parts.join(" ");
         document.getElementById(`event-bar-cover-${data.id}`).style.width = 100 - data.percentage + "%";
         document.getElementById(`event-bar-text-${data.id}`).textContent = data.percentage.toFixed(4) + "%";
+
+        if (Settings.data.invertColors) {
+            document.getElementById(`event-bar-${data.id}`).classList.toggle("inverted", data.started);
+        }
     }
 };
 
