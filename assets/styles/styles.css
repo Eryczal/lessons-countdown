@@ -386,6 +386,12 @@ input:focus {
     white-space: nowrap;
     text-align: center;
     z-index: 5;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+
+.floating-menu.active {
+    opacity: 1;
 }
 
 .floating-option {

@@ -7,6 +7,10 @@ const floatingMenuTemplate = (container, data) => {
     `;
 
     container.insertAdjacentHTML("afterend", template);
+
+    setTimeout(() => {
+        document.getElementById(`floating-menu-${data.id}`).classList.add("active");
+    }, 5);
 };
 
 export { floatingMenuTemplate };
