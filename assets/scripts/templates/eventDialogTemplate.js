@@ -19,21 +19,34 @@ const eventDialogTemplate = (data) => {
         color: data ? data.color : 0,
     };
 
-    const dialog = document.getElementById("dialog");
+    const dialog = {
+        element: document.getElementById("dialog"),
+        header: document.getElementById("dialog-header"),
+        submitButton: document.getElementById("dialog-submit-button"),
+        name: document.getElementById("dialog-name"),
+        startDate: document.getElementById("dialog-start-date"),
+        duration: document.getElementById("dialog-duration"),
+        color: document.getElementById("dialog-color"),
+        repeating: document.getElementById("dialog-repeating"),
+    };
 
-    dialog.querySelector("#dialog-header").textContent = `${displayData.action} countdown`;
-    dialog.querySelector("#dialog-submit-button").textContent = displayData.action;
-    dialog.querySelector("#dialog-submit-button").dataset.eventId = data ? data.id : null;
+    dialog.header.textContent = `${displayData.action} countdown`;
+    dialog.submitButton.textContent = displayData.action;
+    dialog.submitButton.dataset.eventId = data ? data.id : null;
 
-    dialog.querySelector("#dialog-name").value = displayData.name;
-    dialog.querySelector("#dialog-start-date").value = displayData.startDate;
-    dialog.querySelector("#dialog-duration").value = displayData.duration;
-    dialog.querySelector("#dialog-color").classList.add(`countdown-color-${displayData.color}`);
-    dialog.querySelector("#dialog-color").dataset.value = displayData.color;
-    dialog.querySelector("#dialog-repeating").checked = data ? data.repeating : true;
+    if (dialog.color.dataset.value !== "null") {
+        dialog.color.classList.remove(`countdown-color-${dialog.color.dataset.value}`);
+    }
 
-    dialog.showModal();
-    dialog.classList.add("open");
+    dialog.name.value = displayData.name;
+    dialog.startDate.value = displayData.startDate;
+    dialog.duration.value = displayData.duration;
+    dialog.color.classList.add(`countdown-color-${displayData.color}`);
+    dialog.color.dataset.value = displayData.color;
+    dialog.repeating.checked = data ? data.repeating : true;
+
+    dialog.element.showModal();
+    dialog.element.classList.add("open");
 };
 
 export { eventDialogTemplate };
