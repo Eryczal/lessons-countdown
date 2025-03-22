@@ -77,7 +77,7 @@ class CountdownEvent {
             const startDate = this.getEventStartDate();
 
             if (startDate < now) {
-                return;
+                return this.timeBetween(now, now);
             }
 
             return this.timeBetween(now, startDate);

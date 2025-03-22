@@ -50,7 +50,7 @@ const eventContentTemplate = (data) => {
         infoContainer.insertAdjacentHTML("beforeend", infoTemplate);
         barContainer.insertAdjacentHTML("beforeend", barTemplate);
     } else {
-        document.getElementById(`event-difference-header-${data.id}`).textContent = startedTemplate;
+        document.getElementById(`event-difference-header-${data.id}`).textContent = parts.length === 0 ? "Already ended." : startedTemplate;
         document.getElementById(`event-difference-time-${data.id}`).textContent = parts.join(" ");
         document.getElementById(`event-bar-cover-${data.id}`).style.width = 100 - data.percentage + "%";
         document.getElementById(`event-bar-text-${data.id}`).textContent = data.percentage.toFixed(4) + "%";
