@@ -161,6 +161,17 @@ h2 {
     align-items: end;
     padding: 0 0.6rem;
     padding-bottom: 0.4rem;
+    text-wrap: nowrap;
+}
+
+.event-top-info header {
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.event-top-info h2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .event-difference-info {
