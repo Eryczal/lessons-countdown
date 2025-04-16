@@ -8,7 +8,10 @@ class CountdownEventsHolder {
 
         this.loadEvents();
         this.showEvents();
-        this.timer = setInterval(() => this.updateEvents(), 100);
+        this.timer = null;
+        this.timerController = setInterval(() => this.checkTimeController(), 10000);
+
+        this.checkTimeController();
     }
 
     loadEvents() {
@@ -97,6 +100,14 @@ class CountdownEventsHolder {
         }
 
         return id;
+    }
+
+    checkTimeController() {
+        const minTime = Math.min(...this.events.map((event) => event.getWaitingTime(true)).filter((time) => time !== null));
+        const refreshTime = Math.max(10, Math.min(1000, minTime / 300000));
+
+        clearInterval(this.timer);
+        this.timer = setInterval(() => this.updateEvents(), refreshTime);
     }
 }
 

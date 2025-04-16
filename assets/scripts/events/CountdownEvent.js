@@ -116,6 +116,21 @@ class CountdownEvent {
         return nextWeekDate;
     }
 
+    getWaitingTime(onlyActive = false) {
+        if (this.started()) {
+            return this.duration * 60 * 1000;
+        }
+
+        if (!this.repeating) {
+            if (onlyActive && new Date(this.getEventStartDate().getTime() + this.duration * 60 * 1000) <= new Date()) {
+                return null;
+            }
+            return Math.abs(this.getEventStartDate() - this.creationDate);
+        }
+
+        return Math.abs(this.getEventStartDate() - new Date(this.getEventStartDate() - 7 * 24 * 60 * 60 * 1000));
+    }
+
     timeBetween(startDate, endDate) {
         let diff = Math.abs(startDate - endDate);
 
