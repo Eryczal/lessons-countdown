@@ -21,7 +21,18 @@ const eventContentTemplate = (data) => {
         parts.push(`${String(seconds).padStart(2, "0")} ${seconds === 1 ? "second" : "seconds"}.`);
     }
 
-    const startedTemplate = `${data.started ? "Ending" : "Starting"} in:`;
+    let startedTemplate = `${data.started ? "Ending" : "Starting"} in:`;
+
+    if (parts.length === 0) {
+        startedTemplate = "Already ended.";
+        data.percentage = 100;
+    }
+
+    let visiblePercentage = data.percentage;
+
+    if (visiblePercentage !== 0 && visiblePercentage !== 100) {
+        visiblePercentage = visiblePercentage.toFixed(4);
+    }
 
     const infoTemplate = `
         <div class="event-difference-info"> 
@@ -50,10 +61,10 @@ const eventContentTemplate = (data) => {
         infoContainer.insertAdjacentHTML("beforeend", infoTemplate);
         barContainer.insertAdjacentHTML("beforeend", barTemplate);
     } else {
-        document.getElementById(`event-difference-header-${data.id}`).textContent = parts.length === 0 ? "Already ended." : startedTemplate;
+        document.getElementById(`event-difference-header-${data.id}`).textContent = startedTemplate;
         document.getElementById(`event-difference-time-${data.id}`).textContent = parts.join(" ");
         document.getElementById(`event-bar-cover-${data.id}`).style.width = 100 - data.percentage + "%";
-        document.getElementById(`event-bar-text-${data.id}`).textContent = data.percentage.toFixed(4) + "%";
+        document.getElementById(`event-bar-text-${data.id}`).textContent = visiblePercentage + "%";
 
         if (Settings.data.invertColors) {
             document.getElementById(`event-bar-${data.id}`).classList.toggle("inverted", data.started);
